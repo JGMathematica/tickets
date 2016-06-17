@@ -1,0 +1,12 @@
+{
+    "ID":"d9cd57803sf514e5cx7e851d22890123",
+    "ActionKeyword":"tk",
+    "Name":"ticktes",
+    "Description":"火车票",
+    "Author":"XY-e",
+    "Version":"1.0",
+    "Language":"python",
+    "Website":"https://github.com/Wox-launche/Wox",
+    "IcoPath":"Images\\app.png",
+    "ExecuteFileName":"main.py"
+}
