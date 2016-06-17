@@ -7,7 +7,7 @@ from datetime import datetime
 from collections import OrderedDict
 import requests
 
-class HelloWorld(Wox):
+class Tickets(Wox):
 
     train_type = None
     
@@ -142,8 +142,7 @@ class HelloWorld(Wox):
         else:
             time_format = "%Y%m%d"
         try:
-            time_tmp = datetime.strptime(self.off_time, time_format)
-            
+            time_tmp = datetime.strptime(self.off_time, time_format)           
         except ValueError as s:
             self.error_info =  "出错了: 时间格式错误"
             return False
@@ -157,4 +156,4 @@ class HelloWorld(Wox):
           
         
 if __name__ == "__main__":
-    HelloWorld()
+    Tickets()
