@@ -17,6 +17,13 @@ class Tickets(Wox):
     to_sta = None
     off_time = None
     
+    help_info = [
+        "第零个参数：可选，-h : 帮助, -d : 动车, -g : 高铁, -k : 快速, -t : 特快, -z : 直达",
+        "第一个参数：出发站点的中文名",
+        "第二个参数：目的站点的中文名",
+        "第三个参数：具体时间，格式为：201674、2016/7/4、2016-7-4",
+        "第四个参数，可选，具体的某个车次，如K1511"
+    ]
     error_info = None
     
     def query(self, query):
@@ -25,11 +32,19 @@ class Tickets(Wox):
         parser_result = self.parser(query)
         
         if not parser_result:  
-            results.append({
-                "Title": "火车票查询",
-                "SubTitle": "{}".format(self.error_info),            
-                "IcoPath":"app.png"
-            })
+            if self.error_info:
+                results.append({
+                    "Title": "出错啦",
+                    "SubTitle": "{}".format(self.error_info),            
+                    "IcoPath":"app.png"
+                })
+            else:
+                for help_item in self.help_info:
+                    results.append({
+                    "Title": "帮助信息",
+                    "SubTitle": "{}".format(help_item),            
+                    "IcoPath":"app.png"
+                })
         else:
             try:
                 train_info = self.get_train_info()
@@ -125,7 +140,7 @@ class Tickets(Wox):
         try:
             train_info = response.json()['data']['datas'] 
         except Exception as er:
-            self.error_info = "出错了：没有查到相关的车次哦"
+            self.error_info = "没有查到相关的车次哦"
             return False
         return train_info
         
@@ -135,7 +150,7 @@ class Tickets(Wox):
         all_type = "dgktz"
         if all_parameter[0][0] == "-":
             if all_parameter[0] == "-h":
-                self.error_info = "提示信息： -h : 帮助, -d : 动车, -g : 高铁, -k : 快速, -t : 特快, -z : 直达"
+                self.error_info = None
                 return False
             train_type_tmp = all_parameter[0][1:]
             self.train_type = []
@@ -145,18 +160,18 @@ class Tickets(Wox):
             all_parameter = all_parameter[1:]
         
         if len(all_parameter) < 3:
-            self.error_info = "出错了: 参数数量不足"
+            self.error_info = "参数数量不足"
             return False
         
         tmp = stations.get(all_parameter[0])
         if not tmp:
-            self.error_info = "出错了: 未知起始地"
+            self.error_info = "未知起始地"
             return False
         self.from_sta = tmp
         
         tmp = stations.get(all_parameter[1])
         if not tmp:
-            self.error_info = "出错了: 未知目的地"
+            self.error_info = "未知目的地"
             return False
         self.to_sta = tmp
         
@@ -171,14 +186,14 @@ class Tickets(Wox):
             time_tmp = datetime.strptime(self.off_time, time_format)
             
         except ValueError as s:
-            self.error_info =  "出错了: 时间格式错误"
+            self.error_info =  "时间格式错误"
             return False
         else:
             self.off_time = datetime.strftime(time_tmp, "%Y-%m-%d")
         
         if len(all_parameter) == 4:
             if not re.match(r"[KDGZT]\d+", all_parameter[3]):
-                self.error_info = "出错了：车次不符合格式"
+                self.error_info = "车次不符合格式"
                 return False
             self.specific_train = all_parameter[3]
             
