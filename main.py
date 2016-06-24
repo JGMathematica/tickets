@@ -36,14 +36,14 @@ class Tickets(Wox):
                 results.append({
                     "Title": "出错啦",
                     "SubTitle": "{}".format(self.error_info),
-                    "IcoPath": "app.png"
+                    "IcoPath": "info.png"
                 })
             else:  # parser函数对帮助信息和错误信息都返回False，在这里进行区分
                 for help_item in self.help_info:
                     results.append({
                         "Title": "帮助信息",
                         "SubTitle": "{}".format(help_item),
-                        "IcoPath": "app.png"
+                        "IcoPath": "info.png"
                     })
         else:
             try:  # 防止可能出现的错误
@@ -52,7 +52,7 @@ class Tickets(Wox):
                     results.append({
                         "Title": "火车票查询",
                         "SubTitle": "{}".format(self.error_info),
-                        "IcoPath": "app.png"
+                        "IcoPath": "info.png"
                     })
                     return results
 
@@ -66,14 +66,14 @@ class Tickets(Wox):
                 results.append({
                     "Title": "火车票查询",
                     "SubTitle": "出错了：没有查到相关的票哦",
-                    "IcoPath": "app.png"
+                    "IcoPath": "info.png"
                 })
 
         if len(results) == 0:
             results.append({
                 "Title": "火车票查询",
                 "SubTitle": "出错了：没有查到相关的票哦",
-                "IcoPath": "app.png"
+                "IcoPath": "info.png"
             })
         return results
 
@@ -129,7 +129,7 @@ class Tickets(Wox):
                 sub_title.append(value)
 
         one_train['SubTitle'] = " ".join(sub_title)
-        one_train['IcoPath'] = "app.png"
+        one_train['IcoPath'] = "info.png"
 
         # 进行排序，Score越大，越靠前，在这里除法时间越早，Score越大
         one_train['Score'] = self.result_score
