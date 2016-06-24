@@ -34,6 +34,7 @@ class Wox(object):
         print("DEBUG:{}".format(msg))
         sys.exit()
 
+
 class WoxAPI(object):
 
     @classmethod
